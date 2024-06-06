@@ -1,37 +1,16 @@
 import express from "express";
-import { User } from "../models/user.js";
+import {
+  GET_ALL_USERS,
+  NEW_USER,
+  GET_DATA_BY_ID,
+} from "../controllers/user.js";
 
 const router = express.Router();
 
-router.get("/all", async (req, res) => {
-  const users = await User.find({});
+router.get("/all", GET_ALL_USERS);
 
-  res.json({
-    success: true,
-    users,
-  });
-});
+router.post("/new", NEW_USER);
 
-router.post("/new", async (req, res) => {
-  const { name, email, password } = req.body;
-  await User.create({ name, email, password });
-
-  res.status(201).json({
-    success: true,
-    message: "Registered Successfully",
-  });
-});
-
-router.get("/userId/:id", async (req, res) => {
-  const { id } = req.params;
-  console.log(id);
-
-  const user = await User.findById(id);
-
-  res.json({
-    success: true,
-    user,
-  });
-});
+router.get("/userId/:id", GET_DATA_BY_ID);
 
 export default router;
