@@ -30,3 +30,27 @@ export const GET_DATA_BY_ID = async (req, res) => {
     user,
   });
 };
+
+export const UPDATE_USER = async (req, res) => {
+  const { id } = req.params;
+  console.log(id);
+
+  const user = await User.findById(id);
+
+  res.json({
+    success: true,
+    message: "Updated",
+  });
+};
+
+export const DELETE_USER = async (req, res) => {
+  const { id } = req.params;
+  console.log(id);
+
+  const user = await User.findById(id);
+
+  res.json({
+    success: true,
+    message: "User Deleted",
+  });
+};
