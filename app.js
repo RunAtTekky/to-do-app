@@ -4,6 +4,8 @@ import mongoose from "mongoose";
 const app = express();
 const PORT = 4000;
 
+app.use(express.json());
+
 mongoose
   .connect("mongodb://localhost:27017", {
     dbName: "backend_api",
@@ -32,14 +34,23 @@ app.get("/users/all", async (req, res) => {
   });
 });
 
-app.post("/users/new", async (req, res) => {
-  await User.create({
-    name: "Annu",
-    email: "Annu@google.com",
-    password: "RunAt",
-  });
+app.get("/userId/:id", async (req, res) => {
+  const { id } = req.params;
+  console.log(id);
+
+  const user = await User.findById(id);
 
   res.json({
+    success: true,
+    user,
+  });
+});
+
+app.post("/users/new", async (req, res) => {
+  const { name, email, password } = req.body;
+  await User.create({ name, email, password });
+
+  res.status(201).json({
     success: true,
     message: "Registered Successfully",
   });
