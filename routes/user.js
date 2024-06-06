@@ -1,22 +1,21 @@
 import express from "express";
 import {
   GET_ALL_USERS,
-  NEW_USER,
-  GET_DATA_BY_ID,
-  UPDATE_USER,
-  DELETE_USER,
+  REGISTER,
+  LOGIN,
+  GET_MY_PROFILE,
+  LOGOUT,
 } from "../controllers/user.js";
+import { isAuthenticated } from "../middlewares/auth.js";
 
 const router = express.Router();
 
 router.get("/all", GET_ALL_USERS);
 
-router.post("/new", NEW_USER);
+router.post("/new", REGISTER);
+router.post("/login", LOGIN);
 
-router
-  .route("/userId/:id")
-  .get(GET_DATA_BY_ID)
-  .put(UPDATE_USER)
-  .delete(DELETE_USER);
+router.get("/me", isAuthenticated, GET_MY_PROFILE);
+router.get("/logout", LOGOUT);
 
 export default router;
