@@ -22,14 +22,9 @@ export const NEW_TASK = async (req, res, next) => {
 
 export const UPDATE_TASK = async (req, res, next) => {
   try {
-    console.log("hi0");
     const task = await Task.findById(req.params.id);
-    console.log(req.params.id);
-    console.log("hi1");
     task.isCompleted = !task.isCompleted;
-    console.log("hi2");
     await task.save();
-    console.log("hi3");
 
     res.status(200).json({
       success: true,
@@ -57,7 +52,6 @@ export const DELETE_TASK = async (req, res, next) => {
 export const GET_TASK = async (req, res) => {
   try {
     const userId = req.user._id;
-
     const tasks = await Task.find({ user: userId });
 
     res.status(200).json({

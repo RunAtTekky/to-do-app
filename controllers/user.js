@@ -8,11 +8,9 @@ export const LOGIN = async (req, res) => {
     const { email, password } = req.body;
 
     const user = await User.findOne({ email }).select("+password");
-
     if (!user) return next(new ErrorHandler("Invalid Email or Password", 404));
 
     const isMatch = await bcrypt.compare(password, user.password);
-
     if (!isMatch)
       return next(new ErrorHandler("Invalid Email or Password", 404));
 
@@ -27,12 +25,9 @@ export const REGISTER = async (req, res) => {
     const { name, email, password } = req.body;
 
     let user = await User.findOne({ email });
-
-    if (user)
-      if (user) return next(new ErrorHandler("User Already Exist", 404));
+    if (user) return next(new ErrorHandler("User Already Exist", 404));
 
     const hashedPassword = await bcrypt.hash(password, 10);
-
     user = await User.create({ name, email, password: hashedPassword });
 
     sendCookie(user, res, "Registered Successfully", 201);
