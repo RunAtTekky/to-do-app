@@ -17,10 +17,11 @@ app.use(cookieParser());
 app.use(
   cors({
     origin: process.env.FRONTEND_URL,
-    methods: ["GET", "POST", "PUT", "DELETE"],
     credentials: true,
   })
 );
+
+console.log(`I am using ${process.env.FRONTEND_URL}`);
 
 app.use("/api/v1/users", userRouter);
 app.use("/api/v1/task", taskRouter);
